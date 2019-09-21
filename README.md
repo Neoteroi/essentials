@@ -1,4 +1,4 @@
-[![pypi](https://img.shields.io/pypi/v/essentials.svg?color=blue)](https://pypi.org/project/essentials/)
+[![Build Status](https://dev.azure.com/robertoprevato/Nest/_apis/build/status/RobertoPrevato.essentials?branchName=master)](https://dev.azure.com/robertoprevato/Nest/_build/latest?definitionId=28&branchName=master) [![pypi](https://img.shields.io/pypi/v/essentials.svg?color=blue)](https://pypi.org/project/essentials/)
 
 # Essentials
 Core classes and functions, reusable in any kind of Python application.
