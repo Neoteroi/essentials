@@ -7,7 +7,7 @@ def readme():
 
 
 setup(name='essentials',
-      version='1.0.9',
+      version='1.1.0',
       description='Core classes and functions, reusable in any kind of Python application',
       long_description=readme(),
       long_description_content_type='text/markdown',

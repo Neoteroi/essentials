@@ -15,8 +15,8 @@ class FriendlyEncoder(json.JSONEncoder):
             return json.JSONEncoder.default(self, obj)
         except TypeError:
             
-            if hasattr(obj, 'to_dict'):
-                return obj.to_dict()
+            if hasattr(obj, 'dict'):
+                return obj.dict()
             if isinstance(obj, time):
                 return obj.strftime('%H:%M:%S')
             if isinstance(obj, datetime):

@@ -9,8 +9,7 @@ $ pip install essentials
 
 **Features:**
 * [exception classes to express common scenarios](https://github.com/RobertoPrevato/essentials/wiki/Common-exceptions)
-* [implementation of models annotations, useful to implement validation of business objects](https://github.com/RobertoPrevato/essentials/wiki/Models-annotations)
-* [friendly JSON encoder](https://github.com/RobertoPrevato/essentials/wiki/User-friendly-JSON-dumps), handling `datetime`, `date`, `time`, `UUID`, `bytes`
+* [friendly JSON encoder](https://github.com/RobertoPrevato/essentials/wiki/User-friendly-JSON-dumps), handling `datetime`, `date`, `time`, `UUID`, `bytes`, and instances of classes implementing a `dict()` method, like [pydantic BaseModel](https://pydantic-docs.helpmanual.io)
 * utilities to work with `folders` and paths
 * [`StopWatch` implementation](https://github.com/RobertoPrevato/essentials/wiki/StopWatch-implementation)
 * [a base class to handle classes that can be instantiated from configuration dictionaries](https://github.com/RobertoPrevato/essentials/wiki/Registry)

@@ -25,7 +25,7 @@ def test_class_with_to_dict_method():
             self.x = x
             self.y = y
 
-        def to_dict(self):
+        def dict(self):
             return {
                 'x': self.x,
                 'y': self.y,
