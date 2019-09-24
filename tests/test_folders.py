@@ -1,5 +1,8 @@
+import os
 import pytest
-from essentials.folders import get_file_extension, get_path_leaf, split_path
+import uuid
+import shutil
+from essentials.folders import get_file_extension, get_path_leaf, split_path, ensure_folder
 
 
 @pytest.mark.parametrize('value,expected_value', [
@@ -30,3 +33,21 @@ def test_get_path_leaf(value, expected_value):
 ])
 def test_split_path(value, expected_value):
     assert split_path(value) == expected_value
+
+
+def test_ensure_folder():
+    folder_name = str(uuid.uuid4())
+
+    ensure_folder(folder_name)
+
+    assert os.path.isdir(folder_name)
+    shutil.rmtree(folder_name)
+
+
+def test_ensure_folder_deep():
+    folder_name = os.path.join(str(uuid.uuid4()), 'hello')
+
+    ensure_folder(folder_name)
+
+    assert os.path.isdir(folder_name)
+    shutil.rmtree(folder_name)

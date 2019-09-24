@@ -3,10 +3,14 @@ import time
 
 
 class StopWatch:
+
     def __init__(self, func=time.perf_counter):
         self._elapsed_s = 0.0
         self._func = func
         self._start = None
+
+    def __repr__(self):
+        return f'<StopWatch elapsed s.: {self.elapsed_s}>'
 
     def start(self):
         if self._start is not None:

@@ -40,3 +40,4 @@ def parse(value, desired_type):
         return parse_date(value)
     if desired_type == time:
         return parse_time(value)
+    raise ValueError('Unsupported desired_type')
