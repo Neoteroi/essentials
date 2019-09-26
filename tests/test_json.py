@@ -3,6 +3,34 @@ import pytest
 from pytest import raises
 from datetime import datetime, date, time
 from essentials.json import dumps
+from enum import Enum, Flag, IntEnum, IntFlag, auto
+
+
+class Fruit(Enum):
+
+    ANANAS = 'ananas'
+    BANANA = 'banana'
+    MANGO = 'mango'
+
+
+class Power(IntEnum):
+
+    NONE = 0
+    MILD = 1
+    MODERATE = 2
+    GREAT = 3
+
+
+class Color(Flag):
+    RED = auto()
+    BLUE = auto()
+    GREEN = auto()
+
+
+class Permission(IntFlag):
+    R = 4
+    W = 2
+    X = 1
 
 
 @pytest.mark.parametrize('value,expected_json', [
@@ -46,3 +74,47 @@ def test_raises_for_unhandled_class():
 
     with raises(Exception):
         dumps(Example(10, 20))
+
+
+def test_enum_to_json():
+
+    value = dumps({
+        'fruit': Fruit.MANGO,
+        'favorite_fruits': [Fruit.MANGO, Fruit.ANANAS, Fruit.BANANA]
+    })
+
+    assert '"fruit": "mango"' in value
+    assert '"favorite_fruits": ["mango", "ananas", "banana"]' in value
+
+
+def test_int_enum_to_json():
+
+    value = dumps({
+        'power': Power.GREAT,
+        'powers': [Power.MILD, Power.MODERATE]
+    })
+
+    assert '"power": 3' in value
+    assert '"powers": [1, 2]' in value
+
+
+def test_intflag_enum_to_json():
+
+    value = dumps({
+        'permission_one': Permission.R,
+        'permission_two': Permission.R | Permission.W,
+        'permission_three': Permission.W | Permission.X
+    })
+
+    assert '{"permission_one": 4, "permission_two": 6, "permission_three": 3}' == value
+
+
+def test_flag_enum_to_json():
+
+    value = dumps({
+        'color_one': Color.GREEN,
+        'color_two': Color.GREEN | Color.RED,
+        'color_three': Color.GREEN | Color.RED | Color.BLUE
+    })
+
+    assert '{"color_one": 4, "color_two": 5, "color_three": 7}' == value

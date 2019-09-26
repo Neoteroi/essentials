@@ -1,6 +1,7 @@
 """This module defines a more user-friendly json encoder, supporting time objects, UUID and bytes"""
 import json
 import base64
+from enum import Enum
 from datetime import time, date, datetime
 from uuid import UUID
 
@@ -27,7 +28,8 @@ class FriendlyEncoder(json.JSONEncoder):
                 return base64.urlsafe_b64encode(obj).decode('utf8')
             if isinstance(obj, UUID):
                 return str(obj)
-
+            if isinstance(obj, Enum):
+                return obj.value
             raise
 
 
