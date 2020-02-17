@@ -28,7 +28,7 @@ steps:
 
 - script: |
     pip install pytest pytest-asyncio pytest-cov
-    pip install https://github.com/RobertoPrevato/pytest-azurepipelines/archive/master.zip
+    pip install https://github.com/RobertoPrevato/pytest-azurepipelines/archive/css_styles.zip
     python -m pytest tests/ --cov essentials --cov-report html
   displayName: 'pytest'
 
