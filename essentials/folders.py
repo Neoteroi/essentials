@@ -1,5 +1,5 @@
-import os
 import ntpath
+import os
 
 
 def ensure_folder(path):
@@ -21,4 +21,3 @@ def get_file_extension(filepath):
 def get_path_leaf(path):
     head, tail = ntpath.split(path)
     return tail or ntpath.basename(head)
-

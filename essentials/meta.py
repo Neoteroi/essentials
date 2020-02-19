@@ -13,9 +13,9 @@ def deprecated(message=None, raise_exception=False):
     as deprecated. It will result in a warning being emitted
     when the function is used."""
     if message:
-        message = ' ' + message
+        message = " " + message
     else:
-        message = ''
+        message = ""
 
     def _deprecated(f):
         @wraps(f)
@@ -24,10 +24,12 @@ def deprecated(message=None, raise_exception=False):
                 f"`{f.__name__}` is deprecated.{message}",
                 category=DeprecationWarning,
                 filename=f.__code__.co_filename,
-                lineno=f.__code__.co_firstlineno + 1
+                lineno=f.__code__.co_firstlineno + 1,
             )
             if raise_exception:
                 raise DeprecatedException(f.__name__)
             return f(*args, **kwargs)
+
         return wrapped
+
     return _deprecated

@@ -1,5 +1,5 @@
-from enum import Enum
 from datetime import time
+from enum import Enum
 
 
 class TimePrecision(Enum):
@@ -10,7 +10,10 @@ class TimePrecision(Enum):
 
 
 def time_to_seconds(value: time):
-    """Gets the total seconds from a time object, discarding its microseconds information."""
+    """
+    Gets the total seconds from a time object,
+    discarding its microseconds information.
+    """
     return value.hour * 60 * 60 + value.minute * 60 + value.second
 
 
@@ -24,10 +27,12 @@ def time_from_seconds(s: int):
 def time_to_microseconds(value: time):
     """Gets the total microseconds from a time object."""
     b = 1e6
-    return value.hour * 60 * 60 * b + \
-           value.minute * 60 * b + \
-           value.second * b + \
-           value.microsecond
+    return (
+        value.hour * 60 * 60 * b
+        + value.minute * 60 * b
+        + value.second * b
+        + value.microsecond
+    )
 
 
 def time_from_microseconds(a: int):
