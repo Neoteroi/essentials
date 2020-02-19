@@ -10,10 +10,10 @@ pool:
   vmImage: 'ubuntu-latest'
 strategy:
   matrix:
-#    Python36:
-#      python.version: '3.6'
     Python37:
       python.version: '3.7'
+    Python38:
+      python.version: '3.8'
 
 steps:
 - task: UsePythonVersion@0
@@ -27,7 +27,8 @@ steps:
   displayName: 'Install dependencies'
 
 - script: |
-    pip install pytest pytest-asyncio pytest-azurepipelines pytest-cov
+    pip install pytest pytest-asyncio pytest-cov
+    pip install https://github.com/RobertoPrevato/pytest-azurepipelines/archive/css_styles.zip
     python -m pytest tests/ --cov essentials --cov-report html
   displayName: 'pytest'
 
