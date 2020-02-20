@@ -106,3 +106,4 @@ venv.bak/
 built/
 
 .idea
+.vscode

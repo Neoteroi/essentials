@@ -2,9 +2,8 @@ from typing import Any
 
 
 class CrashTest(RuntimeError):
-
-    def __init__(self, value: Any = ''):
-        super().__init__('Crash!' + (f' {value}' if value else ''))
+    def __init__(self, value: Any = ""):
+        super().__init__("Crash!" + (f" {value}" if value else ""))
         self.value = value
 
     def __eq__(self, other):

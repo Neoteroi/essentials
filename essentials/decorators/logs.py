@@ -1,12 +1,11 @@
 import logging
-import reprlib
-from uuid import uuid4
-from logging import Logger
-from typing import Optional, Callable
 from functools import wraps
-from essentials.diagnostics import StopWatch
 from inspect import iscoroutinefunction
+from logging import Logger
+from typing import Callable, Optional
+from uuid import uuid4
 
+from essentials.diagnostics import StopWatch
 
 IdFactory = Callable[[], str]
 
@@ -15,22 +14,24 @@ def _default_id_factory():
     return str(uuid4())
 
 
-def log(logger: Optional[Logger] = None,
-        id_factory: Optional[IdFactory] = None,
-        log_arguments: bool = False,
-        log_return_value: bool = False,
-        level=logging.INFO,
-        call_msg='%s; called; call id: %s',
-        call_msg_with_input='%s; called; call id: %s; args: %s; kwargs: %s',
-        completed_msg='%s; completed; call id: %s; elapsed %s ms',
-        completed_msg_with_output='%s; completed; call id: %s; elapsed %s ms; output: %s',
-        exc_message='%s; unhandled exception; call id: %s; elapsed %s ms'):
+def log(
+    logger: Optional[Logger] = None,
+    id_factory: Optional[IdFactory] = None,
+    log_arguments: bool = False,
+    log_return_value: bool = False,
+    level=logging.INFO,
+    call_msg="%s; called; call id: %s",
+    call_msg_with_input="%s; called; call id: %s; args: %s; kwargs: %s",
+    completed_msg="%s; completed; call id: %s; elapsed %s ms",
+    completed_msg_with_output="%s; completed; call id: %s; elapsed %s ms; output: %s",
+    exc_message="%s; unhandled exception; call id: %s; elapsed %s ms",
+):
 
     if not id_factory:
         id_factory = _default_id_factory
 
     if logger is None:
-        logger = logging.getLogger(f'fn_calls')
+        logger = logging.getLogger(f"fn_calls")
 
     def before(name, fn, args, kwargs):
         function_call_id = id_factory()
@@ -44,19 +45,31 @@ def log(logger: Optional[Logger] = None,
 
     def on_exception(name, stop_watch, exc, function_call_id):
         stop_watch.stop()
-        logger.exception(exc_message, name, function_call_id, stop_watch.elapsed_ms, exc_info=exc)
+        logger.exception(
+            exc_message, name, function_call_id, stop_watch.elapsed_ms, exc_info=exc
+        )
 
     def after(name, stop_watch, function_call_id, value):
         if log_return_value:
-            logger.log(level, completed_msg_with_output, name, function_call_id, stop_watch.elapsed_ms, value)
+            logger.log(
+                level,
+                completed_msg_with_output,
+                name,
+                function_call_id,
+                stop_watch.elapsed_ms,
+                value,
+            )
         else:
-            logger.log(level, completed_msg, name, function_call_id, stop_watch.elapsed_ms)
+            logger.log(
+                level, completed_msg, name, function_call_id, stop_watch.elapsed_ms
+            )
 
     def log_decorator(fn):
         nonlocal logger
-        name = fn.__module__ + '.' + fn.__name__
+        name = fn.__module__ + "." + fn.__name__
 
         if iscoroutinefunction(fn):
+
             @wraps(fn)
             async def async_wrapper(*args, **kwargs):
                 function_call_id = before(name, fn, args, kwargs)
@@ -88,4 +101,5 @@ def log(logger: Optional[Logger] = None,
             return value
 
         return wrapper
+
     return log_decorator

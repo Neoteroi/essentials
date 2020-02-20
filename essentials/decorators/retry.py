@@ -9,12 +9,14 @@ CatchException = Union[Tuple[Type[Exception]], Type[Exception], None]
 OnException = Optional[Callable[[Type[Exception], int], None]]
 
 
-def _get_retry_async_wrapper(fn,
-                             times: int,
-                             delay: float,
-                             catch_exceptions_types: CatchException,
-                             on_exception: OnException,
-                             loop):
+def _get_retry_async_wrapper(
+    fn,
+    times: int,
+    delay: float,
+    catch_exceptions_types: CatchException,
+    on_exception: OnException,
+    loop,
+):
     @wraps(fn)
     async def async_wrapper(*args, **kwargs):
         attempt = 0
@@ -39,22 +41,21 @@ def _get_retry_async_wrapper(fn,
     return async_wrapper
 
 
-def retry(times: int = 3,
-          delay: Optional[float] = 0.1,
-          catch_exceptions_types: CatchException = None,
-          on_exception: OnException = None,
-          loop=None):
+def retry(
+    times: int = 3,
+    delay: Optional[float] = 0.1,
+    catch_exceptions_types: CatchException = None,
+    on_exception: OnException = None,
+    loop=None,
+):
     if catch_exceptions_types is None:
         catch_exceptions_types = Exception
 
     def retry_decorator(fn):
         if iscoroutinefunction(fn):
-            return _get_retry_async_wrapper(fn,
-                                            times,
-                                            delay,
-                                            catch_exceptions_types,
-                                            on_exception,
-                                            loop)
+            return _get_retry_async_wrapper(
+                fn, times, delay, catch_exceptions_types, on_exception, loop
+            )
 
         @wraps(fn)
         def wrapper(*args, **kwargs):
@@ -73,5 +74,7 @@ def retry(times: int = 3,
 
                     if delay is not None:
                         time.sleep(delay)
+
         return wrapper
+
     return retry_decorator

@@ -9,7 +9,6 @@ class DesiredExceptionWithContext(Exception):
 
 
 def test_exception_handle():
-
     @exception_handle(DesiredExceptionWithContext)
     def crashing():
         raise CrashTest()
@@ -22,7 +21,6 @@ def test_exception_handle():
 
 @pytest.mark.asyncio
 async def test_exception_handle_async():
-
     @exception_handle(DesiredExceptionWithContext)
     async def crashing():
         raise CrashTest()

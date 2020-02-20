@@ -58,7 +58,6 @@ def test_retry_decorator_no_delay():
 
 
 def test_retry_decorator_exact_exceptions():
-
     @retry(catch_exceptions_types=CrashTest, delay=0.01)
     def crashing():
         return 1 / 0
@@ -69,7 +68,6 @@ def test_retry_decorator_exact_exceptions():
 
 @pytest.mark.asyncio
 async def test_retry_decorator_exact_exceptions_async():
-
     @retry(catch_exceptions_types=CrashTest, delay=0.01)
     async def crashing():
         return 1 / 0
@@ -91,7 +89,7 @@ def test_retry_decorator_exceeding_attempts_raises():
 
         return True
 
-    with raises(CrashTest, match='Crash! 4'):
+    with raises(CrashTest, match="Crash! 4"):
         crashing()
 
 
@@ -109,7 +107,7 @@ async def test_retry_decorator_exceeding_attempts_raises_async():
 
         return True
 
-    with raises(CrashTest, match='Crash! 4'):
+    with raises(CrashTest, match="Crash! 4"):
         await crashing()
 
 
@@ -133,8 +131,7 @@ def test_retry_decorator_callback():
     crashing()
 
     assert len(exceptions) == 2
-    assert [(CrashTest(1), 1),
-            (CrashTest(2), 2)] == exceptions
+    assert [(CrashTest(1), 1), (CrashTest(2), 2)] == exceptions
 
 
 @pytest.mark.asyncio
@@ -158,8 +155,7 @@ async def test_retry_decorator_callback_async():
     await crashing()
 
     assert len(exceptions) == 2
-    assert [(CrashTest(1), 1),
-            (CrashTest(2), 2)] == exceptions
+    assert [(CrashTest(1), 1), (CrashTest(2), 2)] == exceptions
 
 
 @pytest.mark.asyncio
@@ -184,5 +180,4 @@ async def test_retry_decorator_callback_async_callback():
     await crashing()
 
     assert len(exceptions) == 2
-    assert [(CrashTest(1), 1),
-            (CrashTest(2), 2)] == exceptions
+    assert [(CrashTest(1), 1), (CrashTest(2), 2)] == exceptions
