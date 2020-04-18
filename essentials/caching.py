@@ -2,16 +2,7 @@ import functools
 import time
 from collections import OrderedDict
 from typing import (Any, Callable, Generic, Iterable, Iterator, Optional,
-                    Protocol, Tuple, TypeVar)
-
-
-class GetterSetter(Protocol):
-
-    def __getitem__(self, key) -> Any:
-        ...  # pragma: no cover
-
-    def __setitem__(self, key, newvalue) -> None:
-        ...  # pragma: no cover
+                    Tuple, TypeVar)
 
 
 T = TypeVar("T")
@@ -200,7 +191,7 @@ class ExpiringCache(Cache[T]):
 
 def lazy(
     max_seconds: int = 1,
-    cache: Optional[GetterSetter] = None
+    cache=None
 ):
     """
     Wraps a function so that it is called up to once
