@@ -1,8 +1,7 @@
 import functools
 import time
 from collections import OrderedDict
-from typing import (Any, Callable, Generic, Iterable, Iterator, Optional,
-                    Tuple, TypeVar)
+from typing import (Any, Callable, Generic, Iterable, Iterator, Tuple, TypeVar)
 
 
 T = TypeVar("T")
