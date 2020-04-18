@@ -212,7 +212,7 @@ def lazy(
         cache = Cache(500)
 
     def lazy_decorator(fn):
-        setattr(fn, "lazy_cache", cache)
+        setattr(fn, "cache", cache)
 
         @functools.wraps(fn)
         def wrapper(*args):

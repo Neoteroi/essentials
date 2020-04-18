@@ -209,3 +209,56 @@ def test_lazy_method():
 
     for _ in range(10):
         assert increase() == 3
+
+
+def test_lazy_method_support_dict_cache():
+    cache_one = {}
+    cache_two = {}
+
+    @lazy(0.05, cache_one)
+    def foo():
+        return ...
+
+    @lazy(0.05, cache_two)
+    def ofo():
+        return ...
+
+    assert foo.cache is cache_one
+    assert ofo.cache is cache_two
+
+    foo()
+    assert len(cache_one) == 1
+
+
+def test_lazy_method_cache_depends_on_input_arguments():
+
+    @lazy(100, {})
+    def get_object(key):
+        return object()
+
+    a = get_object("one")
+
+    assert get_object("one") is a
+
+    b = get_object("two")
+
+    assert a is not b
+    assert get_object("one") is a
+    assert get_object("two") is b
+
+
+def test_lazy_method_cache_depends_on_input_arguments_args():
+
+    @lazy(100, {})
+    def get_object(*keys):
+        return object()
+
+    a = get_object("lorem", "ipsum")
+
+    assert get_object("lorem", "ipsum") is a
+
+    b = get_object("lorem", "ipsum", "dolor")
+
+    assert a is not b
+    assert get_object("lorem", "ipsum") is a
+    assert get_object("lorem", "ipsum", "dolor") is b
