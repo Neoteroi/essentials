@@ -203,9 +203,11 @@ def lazy(
     cache: Optional[GetterSetter] = None
 ):
     """
-    Returns a decorator that calls the wrapped function up to once
+    Wraps a function so that it can be called up to once
     every max_seconds, by input arguments.
     Results are stored in a cache, by default a LRU cache of max size 500.
+
+    To have a cache without size limit, use a dictionary: @lazy(1, {})
     """
     assert max_seconds > 0
     if cache is None:
