@@ -9,7 +9,7 @@ def readme():
 setup(
     name="essentials",
     version="1.1.3",
-    description="Core classes and functions, "
+    description="General purpose classes and functions, "
                 "reusable in any kind of Python application",
     long_description=readme(),
     long_description_content_type="text/markdown",
@@ -31,5 +31,4 @@ setup(
     ],
     install_requires=[],
     include_package_data=True,
-    zip_safe=False,
 )

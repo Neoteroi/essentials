@@ -16,6 +16,7 @@ $ pip install essentials
 * [common decorator to support retries](https://github.com/RobertoPrevato/essentials/wiki/Retry-decorator)
 * [common decorator to support logging function calls](https://github.com/RobertoPrevato/essentials/wiki/Logs-decorator)
 * [common decorator to control raised exceptions](https://github.com/RobertoPrevato/essentials/wiki/Exception-handle-decorator)
+* [caching functions](https://github.com/RobertoPrevato/essentials/wiki/Caching)
 
 ## Documentation
 Please refer to documentation in the project wiki: [https://github.com/RobertoPrevato/essentials/wiki](https://github.com/RobertoPrevato/essentials/wiki).
