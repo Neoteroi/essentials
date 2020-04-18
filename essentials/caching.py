@@ -203,7 +203,7 @@ def lazy(
     cache: Optional[GetterSetter] = None
 ):
     """
-    Wraps a function so that it can be called up to once
+    Wraps a function so that it is called up to once
     every max_seconds, by input arguments.
     Results are stored in a cache, by default a LRU cache of max size 500.
 

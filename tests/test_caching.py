@@ -116,7 +116,7 @@ def test_cache_iterable(cache: Cache):
 
 
 def test_expiration_policy_with_max_age():
-    cache = ExpiringCache.with_max_age(0.1, 5)
+    cache = ExpiringCache.with_max_age(0.1)
     cache['foo'] = 'Foo'
 
     time.sleep(0.2)
