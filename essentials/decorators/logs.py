@@ -31,7 +31,7 @@ def log(
         id_factory = _default_id_factory
 
     if logger is None:
-        logger = logging.getLogger(f"fn_calls")
+        logger = logging.getLogger("fn_calls")
 
     def before(name, fn, args, kwargs):
         function_call_id = id_factory()
