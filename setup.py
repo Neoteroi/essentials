@@ -8,9 +8,9 @@ def readme():
 
 setup(
     name="essentials",
-    version="1.1.3",
+    version="1.1.4",
     description="General purpose classes and functions, "
-                "reusable in any kind of Python application",
+    "reusable in any kind of Python application",
     long_description=readme(),
     long_description_content_type="text/markdown",
     classifiers=[
@@ -24,11 +24,7 @@ setup(
     author_email="roberto.prevato@gmail.com",
     keywords="core utilities",
     license="MIT",
-    packages=[
-        "essentials",
-        "essentials.typesutils",
-        "essentials.decorators",
-    ],
+    packages=["essentials", "essentials.typesutils", "essentials.decorators",],
     install_requires=[],
     include_package_data=True,
 )

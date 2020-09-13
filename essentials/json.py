@@ -2,17 +2,14 @@
 This module defines a user-friendly json encoder,
 supporting time objects, UUID and bytes.
 """
-import json
 import base64
+import dataclasses
+import json
+from datetime import date, datetime, time
 from enum import Enum
-from datetime import time, date, datetime
 from uuid import UUID
 
-
 __all__ = ["FriendlyEncoder", "dumps"]
-
-
-# TODO: use singledispatch to make the friendly encoder expandable
 
 
 class FriendlyEncoder(json.JSONEncoder):
@@ -20,7 +17,6 @@ class FriendlyEncoder(json.JSONEncoder):
         try:
             return json.JSONEncoder.default(self, obj)
         except TypeError:
-
             if hasattr(obj, "dict"):
                 return obj.dict()
             if isinstance(obj, time):
@@ -35,6 +31,8 @@ class FriendlyEncoder(json.JSONEncoder):
                 return str(obj)
             if isinstance(obj, Enum):
                 return obj.value
+            if dataclasses.is_dataclass(obj):
+                return dataclasses.asdict(obj)
             raise
 
 

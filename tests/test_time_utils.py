@@ -2,11 +2,14 @@ from datetime import time
 
 import pytest
 
-from essentials.typesutils.timeutils import (TimePrecision, get_time_precision,
-                                             time_from_microseconds,
-                                             time_from_seconds,
-                                             time_to_microseconds,
-                                             time_to_seconds)
+from essentials.typesutils.timeutils import (
+    TimePrecision,
+    get_time_precision,
+    time_from_microseconds,
+    time_from_seconds,
+    time_to_microseconds,
+    time_to_seconds,
+)
 
 
 @pytest.mark.parametrize(
@@ -38,10 +41,7 @@ def test_time_from_seconds(seconds, expected_time):
 
 @pytest.mark.parametrize(
     "expected_time,microseconds",
-    [
-        [time(0, 1, 0, 20), 60 * 1e6 + 20],
-        [time(0, 5, 0, 333), 60 * 5 * 1e6 + 333]
-    ],
+    [[time(0, 1, 0, 20), 60 * 1e6 + 20], [time(0, 5, 0, 333), 60 * 5 * 1e6 + 333]],
 )
 def test_time_from_microseconds(microseconds, expected_time):
     assert time_from_microseconds(microseconds) == expected_time
@@ -49,10 +49,7 @@ def test_time_from_microseconds(microseconds, expected_time):
 
 @pytest.mark.parametrize(
     "value,expected_microseconds",
-    [
-        [time(0, 1, 0, 20), 60 * 1e6 + 20],
-        [time(0, 5, 0, 333), 60 * 5 * 1e6 + 333]
-    ],
+    [[time(0, 1, 0, 20), 60 * 1e6 + 20], [time(0, 5, 0, 333), 60 * 5 * 1e6 + 333]],
 )
 def test_time_to_microseconds(value, expected_microseconds):
     assert time_to_microseconds(value) == expected_microseconds
