@@ -1,4 +1,5 @@
-import uuid
+from uuid import UUID, uuid4
+from dataclasses import dataclass
 from datetime import date, datetime, time
 from enum import Enum, Flag, IntEnum, IntFlag, auto
 
@@ -8,8 +9,13 @@ from pytest import raises
 from essentials.json import dumps
 
 
-class Fruit(Enum):
+@dataclass
+class Foo:
+    id: UUID
+    name: str
 
+
+class Fruit(Enum):
     ANANAS = "ananas"
     BANANA = "banana"
     MANGO = "mango"
@@ -42,7 +48,7 @@ class Permission(IntFlag):
         ({"value": date(2016, 3, 26)}, '{"value": "2016-03-26"}'),
         ({"value": datetime(2016, 3, 26, 3, 0, 0)}, '{"value": "2016-03-26T03:00:00"}'),
         (
-            {"value": uuid.UUID("e56fddfc-f85b-4178-869f-a218278a639e")},
+            {"value": UUID("e56fddfc-f85b-4178-869f-a218278a639e")},
             '{"value": "e56fddfc-f85b-4178-869f-a218278a639e"}',
         ),
         (
@@ -85,7 +91,6 @@ def test_raises_for_unhandled_class():
 
 
 def test_enum_to_json():
-
     value = dumps(
         {
             "fruit": Fruit.MANGO,
@@ -98,7 +103,6 @@ def test_enum_to_json():
 
 
 def test_int_enum_to_json():
-
     value = dumps({"power": Power.GREAT, "powers": [Power.MILD, Power.MODERATE]})
 
     assert '"power": 3' in value
@@ -106,7 +110,6 @@ def test_int_enum_to_json():
 
 
 def test_intflag_enum_to_json():
-
     value = dumps(
         {
             "permission_one": Permission.R,
@@ -119,7 +122,6 @@ def test_intflag_enum_to_json():
 
 
 def test_flag_enum_to_json():
-
     value = dumps(
         {
             "color_one": Color.GREEN,
@@ -129,3 +131,17 @@ def test_flag_enum_to_json():
     )
 
     assert '{"color_one": 4, "color_two": 5, "color_three": 7}' == value
+
+
+def test_serialize_dataclass():
+    foo_id = uuid4()
+    value = dumps(Foo(foo_id, "foo"))
+
+    assert f'{{"id": "{foo_id}", "name": "foo"}}' == value
+
+
+def test_serialize_dataclass_no_spaces():
+    foo_id = uuid4()
+    value = dumps(Foo(foo_id, "foo"), separators=(",", ":"))
+
+    assert f'{{"id":"{foo_id}","name":"foo"}}' == value

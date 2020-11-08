@@ -1,4 +1,7 @@
-[![Build Status](https://dev.azure.com/robertoprevato/Nest/_apis/build/status/RobertoPrevato.essentials?branchName=master)](https://dev.azure.com/robertoprevato/Nest/_build/latest?definitionId=28&branchName=master) [![pypi](https://img.shields.io/pypi/v/essentials.svg?color=blue)](https://pypi.org/project/essentials/) [![Test coverage](https://img.shields.io/azure-devops/coverage/robertoprevato/Nest/28.svg)](https://dev.azure.com/robertoprevato/Nest/_build?definitionId=28)
+![Build](https://github.com/RobertoPrevato/essentials/workflows/Build/badge.svg)
+[![pypi](https://img.shields.io/pypi/v/essentials.svg)](https://pypi.python.org/pypi/essentials)
+[![versions](https://img.shields.io/pypi/pyversions/essentials.svg)](https://github.com/RobertoPrevato/essentials)
+[![license](https://img.shields.io/github/license/RobertoPrevato/essentials.svg)](https://github.com/RobertoPrevato/essentials/blob/master/LICENSE)
 
 # Essentials
 Core classes and functions, reusable in any kind of Python application.

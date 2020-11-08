@@ -1,8 +1,7 @@
 from pytest import raises
 
 from essentials.exceptions import InvalidArgument
-from essentials.registry import (AmbiguousRegistryName, Registry,
-                                 TypeNotFoundException)
+from essentials.registry import AmbiguousRegistryName, Registry, TypeNotFoundException
 
 
 def test_registry_type():

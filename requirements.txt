@@ -2,5 +2,4 @@ pytest
 pytest-cov
 pytest-asyncio
 flake8
-mypy
-black
+dataclasses==0.7;python_version<'3.7'
