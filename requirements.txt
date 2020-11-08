@@ -2,5 +2,3 @@ pytest
 pytest-cov
 pytest-asyncio
 flake8
-mypy
-black
