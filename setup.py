@@ -29,6 +29,6 @@ setup(
     keywords="core utilities",
     license="MIT",
     packages=["essentials", "essentials.typesutils", "essentials.decorators"],
-    install_requires=[],
+    install_requires=["dataclasses==0.7;python_version<'3.7'"],
     include_package_data=True,
 )
