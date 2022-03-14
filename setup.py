@@ -8,7 +8,7 @@ def readme():
 
 setup(
     name="essentials",
-    version="1.1.4",
+    version="1.1.5",
     description="General purpose classes and functions, "
     "reusable in any kind of Python application",
     long_description=readme(),
