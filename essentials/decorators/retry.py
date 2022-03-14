@@ -36,7 +36,7 @@ def _get_retry_async_wrapper(
                     raise
 
                 if delay is not None:
-                    await asyncio.sleep(delay, loop=loop)
+                    await asyncio.sleep(delay)
 
     return async_wrapper
 

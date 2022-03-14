@@ -16,7 +16,7 @@ class EmptyArgumentException(InvalidArgument):
 
 class AcceptedException(Exception):
     """
-    Exception risen when an operation cannot be fully completed,
+    Exception raised when an operation cannot be fully completed,
     but doesn't imply failure.
     """
 
@@ -26,6 +26,10 @@ class AcceptedException(Exception):
         "but its completion is not guaranteed.",
     ):
         super().__init__(message)
+
+
+class ConflictException(Exception):
+    """Common exception for conflict scenarios."""
 
 
 class ObjectNotFound(Exception):
