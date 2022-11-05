@@ -1,9 +1,8 @@
-import time
 import asyncio
+import time
 from functools import wraps
 from inspect import iscoroutinefunction
-from typing import Optional, Tuple, Type, Union, Callable
-
+from typing import Callable, Optional, Tuple, Type, Union
 
 CatchException = Union[Tuple[Type[Exception]], Type[Exception], None]
 OnException = Optional[Callable[[Type[Exception], int], None]]

@@ -1,12 +1,12 @@
 from functools import wraps
 from inspect import iscoroutinefunction
 from typing import Type
-from .retry import retry, CatchException, OnException  # noqa
+
+from .retry import CatchException, OnException, retry  # noqa
 
 
 def exception_handle(
-    exception_type: Type[Exception],
-    catch_exceptions_types: CatchException = None
+    exception_type: Type[Exception], catch_exceptions_types: CatchException = None
 ):
     """
     Wraps a given function to catch all exceptions that might happen during

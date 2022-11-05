@@ -1,8 +1,11 @@
-import pytest
 import logging
-from pytest import raises
 from reprlib import repr
+
+import pytest
+from pytest import raises
+
 from essentials.decorators.logs import log
+
 from . import CrashTest
 
 
@@ -102,13 +105,7 @@ async def test_log_decorator_async_exceptions_handling(caplog):
     assert "call id" in second_record.message
 
 
-@pytest.mark.parametrize(
-    "input_name,input_count",
-    [
-        ["Burtleby", 5],
-        ["True", 2]
-    ]
-)
+@pytest.mark.parametrize("input_name,input_count", [["Burtleby", 5], ["True", 2]])
 def test_log_decorator_with_arguments_and_return_value(caplog, input_name, input_count):
     caplog.set_level(logging.INFO)
 

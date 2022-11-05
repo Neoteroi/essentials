@@ -1,22 +1,17 @@
 import time
 
 import pytest
+
 from essentials.caching import Cache, ExpiringCache, lazy
 
 
-@pytest.mark.parametrize(
-    'cache',
-    [Cache(), ExpiringCache(lambda _: False)]
-)
+@pytest.mark.parametrize("cache", [Cache(), ExpiringCache(lambda _: False)])
 def test_cache__getitem_throws_keyerror(cache: Cache):
     with pytest.raises(KeyError):
         cache["cat"]
 
 
-@pytest.mark.parametrize(
-    'cache',
-    [Cache(), ExpiringCache(lambda _: False)]
-)
+@pytest.mark.parametrize("cache", [Cache(), ExpiringCache(lambda _: False)])
 def test_cache__setitem__getitem(cache: Cache):
     cache.set("cat", "Celine")
     value = cache.get("cat")
@@ -24,10 +19,7 @@ def test_cache__setitem__getitem(cache: Cache):
     assert "Celine" == value
 
 
-@pytest.mark.parametrize(
-    'cache',
-    [Cache(), ExpiringCache(lambda _: False)]
-)
+@pytest.mark.parametrize("cache", [Cache(), ExpiringCache(lambda _: False)])
 def test_cache_item(cache: Cache):
     cache["cat"] = "Celine"
     value = cache["cat"]
@@ -36,8 +28,7 @@ def test_cache_item(cache: Cache):
 
 
 @pytest.mark.parametrize(
-    'cache',
-    [Cache(max_size=3), ExpiringCache(lambda _: False, max_size=3)]
+    "cache", [Cache(max_size=3), ExpiringCache(lambda _: False, max_size=3)]
 )
 def test_reset_existing_item(cache: Cache):
     cache[1] = 1
@@ -62,8 +53,7 @@ def test_reset_existing_item(cache: Cache):
 
 
 @pytest.mark.parametrize(
-    'cache',
-    [Cache(max_size=20), ExpiringCache(lambda _: False, max_size=20)]
+    "cache", [Cache(max_size=20), ExpiringCache(lambda _: False, max_size=20)]
 )
 def test_cache_max_size(cache: Cache):
     for i in range(30):
@@ -90,8 +80,7 @@ def test_cache_keys_and_values():
 
 
 @pytest.mark.parametrize(
-    'cache',
-    [Cache(max_size=20), ExpiringCache(lambda _: False, max_size=20)]
+    "cache", [Cache(max_size=20), ExpiringCache(lambda _: False, max_size=20)]
 )
 def test_cache_len(cache: Cache):
     for i in range(30):
@@ -100,10 +89,7 @@ def test_cache_len(cache: Cache):
     assert len(cache) == 20
 
 
-@pytest.mark.parametrize(
-    'cache',
-    [Cache(), ExpiringCache(lambda _: False)]
-)
+@pytest.mark.parametrize("cache", [Cache(), ExpiringCache(lambda _: False)])
 def test_cache_iterable(cache: Cache):
     for i in range(20):
         cache.set(i, i * i)
@@ -117,17 +103,17 @@ def test_cache_iterable(cache: Cache):
 
 def test_expiration_policy_with_max_age():
     cache = ExpiringCache.with_max_age(0.1)
-    cache['foo'] = 'Foo'
+    cache["foo"] = "Foo"
 
     time.sleep(0.2)
 
-    assert cache.get('foo') is None
+    assert cache.get("foo") is None
 
-    cache['foo'] = 'Foo'
+    cache["foo"] = "Foo"
 
     time.sleep(0.2)
 
-    assert 'foo' not in cache
+    assert "foo" not in cache
 
 
 def test_expiration_policy():
@@ -141,18 +127,15 @@ def test_expiration_policy():
 
 def test_expiration_policy_when_full():
     cache = ExpiringCache(lambda item: item.value > 1, max_size=2)
-    cache.set('a', 1)
-    cache.set('b', 2)
-    cache.set('c', 0)
-    assert cache.get('b') is None
-    assert cache.get('a') == 1
-    assert cache.get('c') == 0
+    cache.set("a", 1)
+    cache.set("b", 2)
+    cache.set("c", 0)
+    assert cache.get("b") is None
+    assert cache.get("a") == 1
+    assert cache.get("c") == 0
 
 
-@pytest.mark.parametrize(
-    'cache',
-    [Cache(), ExpiringCache(lambda _: False)]
-)
+@pytest.mark.parametrize("cache", [Cache(), ExpiringCache(lambda _: False)])
 def test_cache_clear_is_empty(cache: Cache):
     cache.set("cat", "Celine")
     assert not cache.is_empty
@@ -183,7 +166,7 @@ def test_expiring_cache_checks_expiration_when_iterating():
 
 def test_cache_repr():
     cache = Cache()
-    cache['foo'] = ...
+    cache["foo"] = ...
 
     assert repr(cache) == f"<Cache {len(cache)} at {id(cache)}>"
 
@@ -231,7 +214,6 @@ def test_lazy_method_support_dict_cache():
 
 
 def test_lazy_method_cache_depends_on_input_arguments():
-
     @lazy(100, {})
     def get_object(key):
         return object()
@@ -248,7 +230,6 @@ def test_lazy_method_cache_depends_on_input_arguments():
 
 
 def test_lazy_method_cache_depends_on_input_arguments_args():
-
     @lazy(100, {})
     def get_object(*keys):
         return object()

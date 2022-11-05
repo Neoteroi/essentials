@@ -1,7 +1,9 @@
 import pytest
 from pytest import raises
-from . import CrashTest
+
 from essentials.decorators import exception_handle
+
+from . import CrashTest
 
 
 class DesiredExceptionWithContext(Exception):

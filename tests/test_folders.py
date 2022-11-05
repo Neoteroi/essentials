@@ -4,8 +4,12 @@ import uuid
 
 import pytest
 
-from essentials.folders import (ensure_folder, get_file_extension,
-                                get_path_leaf, split_path)
+from essentials.folders import (
+    ensure_folder,
+    get_file_extension,
+    get_path_leaf,
+    split_path,
+)
 
 
 @pytest.mark.parametrize(

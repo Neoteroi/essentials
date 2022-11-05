@@ -8,9 +8,8 @@ def readme():
 
 setup(
     name="essentials",
-    version="1.1.5",
-    description="General purpose classes and functions, "
-    "reusable in any kind of Python application",
+    version="1.1.6",
+    description="General purpose classes and functions",
     long_description=readme(),
     long_description_content_type="text/markdown",
     classifiers=[
@@ -21,6 +20,8 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "Operating System :: OS Independent",
     ],
     url="https://github.com/Neoteroi/essentials",

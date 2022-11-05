@@ -1,8 +1,7 @@
 import functools
 import time
 from collections import OrderedDict
-from typing import (Any, Callable, Generic, Iterable, Iterator, Tuple, TypeVar)
-
+from typing import Any, Callable, Generic, Iterable, Iterator, Tuple, TypeVar
 
 T = TypeVar("T")
 
@@ -10,10 +9,7 @@ T = TypeVar("T")
 class Cache(Generic[T]):
     """In-memory LRU cache implementation."""
 
-    def __init__(
-        self,
-        max_size: int = 500
-    ):
+    def __init__(self, max_size: int = 500):
         self._bag: OrderedDict[Any, Any] = OrderedDict()
         self._max_size = -1
         self.max_size = max_size
@@ -87,10 +83,7 @@ class Cache(Generic[T]):
 class CachedItem(Generic[T]):
     """Container for cached items with update timestamp."""
 
-    __slots__ = (
-        '_value',
-        '_time'
-    )
+    __slots__ = ("_value", "_time")
 
     def __init__(self, value: T):
         self._value = value
@@ -114,9 +107,7 @@ class ExpiringCache(Cache[T]):
     """A cache whose items can expire by a given function."""
 
     def __init__(
-        self,
-        expiration_policy: Callable[[CachedItem[T]], bool],
-        max_size: int = 500
+        self, expiration_policy: Callable[[CachedItem[T]], bool], max_size: int = 500
     ):
         super().__init__(max_size)
         assert expiration_policy is not None
@@ -157,17 +148,12 @@ class ExpiringCache(Cache[T]):
             self._check_size()
 
     @classmethod
-    def with_max_age(
-        cls,
-        max_age: float,
-        max_size: int = 500
-    ):
+    def with_max_age(cls, max_age: float, max_size: int = 500):
         """
         Returns an instance of ExpiringCache whose items are invalidated
         when they were set more than a given number of seconds ago.
         """
-        return cls(lambda item: time.time() - item.time > max_age,
-                   max_size)
+        return cls(lambda item: time.time() - item.time > max_age, max_size)
 
     def __contains__(self, key) -> bool:
         if key not in self._bag:
@@ -188,10 +174,7 @@ class ExpiringCache(Cache[T]):
                 yield (key, item.value)
 
 
-def lazy(
-    max_seconds: int = 1,
-    cache=None
-):
+def lazy(max_seconds: int = 1, cache=None):
     """
     Wraps a function so that it is called up to once
     every max_seconds, by input arguments.
@@ -217,6 +200,7 @@ def lazy(
                 value = fn(*args)
                 cache[args] = (value, now)
             return value
+
         return wrapper
 
     return lazy_decorator
