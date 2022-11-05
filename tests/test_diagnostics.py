@@ -1,6 +1,8 @@
 import time
+
 import pytest
 from pytest import raises
+
 from essentials.diagnostics import StopWatch
 
 

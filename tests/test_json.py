@@ -1,7 +1,7 @@
-from uuid import UUID, uuid4
 from dataclasses import dataclass
 from datetime import date, datetime, time
 from enum import Enum, Flag, IntEnum, IntFlag, auto
+from uuid import UUID, uuid4
 
 import pytest
 from pytest import raises

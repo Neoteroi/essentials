@@ -1,6 +1,8 @@
+from datetime import date, datetime, time
+
 import pytest
 from pytest import raises
-from datetime import datetime, date, time
+
 from essentials.exceptions import EmptyArgumentException
 from essentials.typesutils import dateutils
 
