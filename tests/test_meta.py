@@ -1,3 +1,5 @@
+import asyncio
+
 import pytest
 
 from essentials.meta import DeprecatedException, deprecated
@@ -5,6 +7,16 @@ from essentials.meta import DeprecatedException, deprecated
 
 @deprecated()
 def dep_method():
+    pass
+
+
+@deprecated()
+async def async_dep_method():
+    pass
+
+
+@deprecated(raise_exception=True)
+async def async_dep_method2():
     pass
 
 
@@ -26,3 +38,13 @@ def test_class_deprecated_method():
 def test_deprecated_method():
     with pytest.warns(DeprecationWarning, match="`dep_method` is deprecated."):
         dep_method()
+
+
+def test_deprecated_async_method():
+    with pytest.warns(DeprecationWarning, match="`async_dep_method` is deprecated."):
+        asyncio.run(async_dep_method())
+
+
+def test_deprecated_async_method_exc():
+    with pytest.raises(DeprecatedException):
+        asyncio.run(async_dep_method2())
