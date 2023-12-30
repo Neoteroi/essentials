@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from datetime import date, datetime, time
+from decimal import Decimal
 from enum import Enum, Flag, IntEnum, IntFlag, auto
 from uuid import UUID, uuid4
 
@@ -47,6 +48,7 @@ class Permission(IntFlag):
         ({"value": time(10, 30, 15)}, '{"value": "10:30:15"}'),
         ({"value": date(2016, 3, 26)}, '{"value": "2016-03-26"}'),
         ({"value": datetime(2016, 3, 26, 3, 0, 0)}, '{"value": "2016-03-26T03:00:00"}'),
+        ({"value": Decimal("10.5")}, '{"value": "10.5"}'),
         (
             {"value": UUID("e56fddfc-f85b-4178-869f-a218278a639e")},
             '{"value": "e56fddfc-f85b-4178-869f-a218278a639e"}',
