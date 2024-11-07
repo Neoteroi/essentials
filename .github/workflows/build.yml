@@ -18,20 +18,20 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.9, "3.10", "3.11"]
+        python-version: [3.8, 3.9, "3.10", 3.11, 3.12]
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 9
           submodules: false
 
       - name: Use Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
-      - uses: actions/cache@v1
+      - uses: actions/cache@v4
         id: depcache
         with:
           path: deps
@@ -57,6 +57,10 @@ jobs:
           flake8 .
           isort --check-only . 2>&1
           black --check . 2>&1
+
+      - name: Check type hints
+        run: mypy .
+        if: matrix.python-version == 3.12
 
       - name: Upload pytest test results
         uses: actions/upload-artifact@master
@@ -90,7 +94,7 @@ jobs:
     if: github.event_name == 'release'
     steps:
       - name: Download a distribution artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: dist-package-3.10
           path: dist

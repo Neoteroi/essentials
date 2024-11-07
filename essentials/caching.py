@@ -9,7 +9,7 @@ T = TypeVar("T")
 class Cache(Generic[T]):
     """In-memory LRU cache implementation."""
 
-    def __init__(self, max_size: int = 500):
+    def __init__(self, max_size: int = 500) -> None:
         self._bag: OrderedDict[Any, Any] = OrderedDict()
         self._max_size = -1
         self.max_size = max_size
@@ -50,7 +50,7 @@ class Cache(Generic[T]):
     def set(self, key, value) -> None:
         self[key] = value
 
-    def _check_size(self):
+    def _check_size(self) -> None:
         while len(self._bag) > self.max_size:
             self._bag.popitem(last=False)
 
@@ -85,7 +85,7 @@ class CachedItem(Generic[T]):
 
     __slots__ = ("_value", "_time")
 
-    def __init__(self, value: T):
+    def __init__(self, value: T) -> None:
         self._value = value
         self._time = time.time()
 
@@ -94,7 +94,7 @@ class CachedItem(Generic[T]):
         return self._value
 
     @value.setter
-    def value(self, value: T):
+    def value(self, value: T) -> None:
         self._value = value
         self._time = time.time()
 
@@ -108,7 +108,7 @@ class ExpiringCache(Cache[T]):
 
     def __init__(
         self, expiration_policy: Callable[[CachedItem[T]], bool], max_size: int = 500
-    ):
+    ) -> None:
         super().__init__(max_size)
         assert expiration_policy is not None
         self.expiration_policy = expiration_policy
@@ -120,12 +120,12 @@ class ExpiringCache(Cache[T]):
     def expired(self, item: CachedItem) -> bool:
         return self.expiration_policy(item)
 
-    def _remove_expired_items(self):
+    def _remove_expired_items(self) -> None:
         for key, item in list(self._bag.items()):
             if self.expired(item):
                 del self[key]
 
-    def _check_size(self):
+    def _check_size(self) -> None:
         if self.full:
             self._remove_expired_items()
         super()._check_size()
@@ -148,7 +148,7 @@ class ExpiringCache(Cache[T]):
             self._check_size()
 
     @classmethod
-    def with_max_age(cls, max_age: float, max_size: int = 500):
+    def with_max_age(cls, max_age: float, max_size: int = 500) -> "ExpiringCache":
         """
         Returns an instance of ExpiringCache whose items are invalidated
         when they were set more than a given number of seconds ago.

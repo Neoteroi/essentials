@@ -18,6 +18,8 @@ class FriendlyEncoder(json.JSONEncoder):
             return json.JSONEncoder.default(self, obj)
         except TypeError:
             if hasattr(obj, "dict"):
+                if hasattr(obj, "model_dump"):
+                    return obj.model_dump()
                 return obj.dict()
             if isinstance(obj, time):
                 return obj.strftime("%H:%M:%S")
@@ -48,7 +50,7 @@ def dumps(
     default=None,
     sort_keys=False,
     **kw
-):
+) -> str:
     if cls is None:
         cls = FriendlyEncoder
     return json.dumps(
