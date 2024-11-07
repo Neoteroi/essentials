@@ -9,9 +9,11 @@ from pytest import raises
 
 from essentials.json import dumps
 
+
 class Model(BaseModel):
     id: int
     name: str
+
 
 @dataclass
 class Foo:
@@ -83,7 +85,7 @@ def test_class_with_to_dict_method():
     data = dumps(Example(10, 20))
     assert '{"x": 10, "y": 20, "something_else": true, "date": "2016-03-26"}' == data
 
-    data = dumps(Model(id=1, name='hello'))
+    data = dumps(Model(id=1, name="hello"))
     assert '{"id": 1, "name": "hello"}' == data
 
 

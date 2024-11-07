@@ -2,6 +2,7 @@
 Timer class, edited from: Python Cookbook,
 3rd Edition by Brian K. Jones, David Beazley
 """
+
 import time
 
 

@@ -5,7 +5,6 @@ from pytest import raises
 
 from essentials.diagnostics import StopWatch
 
-
 DELTA = 0.15
 
 
