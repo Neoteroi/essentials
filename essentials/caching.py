@@ -1,7 +1,15 @@
 import functools
 import time
 from collections import OrderedDict
-from typing import Any, Callable, Generic, Iterable, Iterator, Tuple, TypeVar
+from typing import TYPE_CHECKING, Any, Generic, Iterable, Iterator, Tuple, TypeVar
+
+if TYPE_CHECKING:
+    from typing import Callable, TypeVarTuple, Unpack
+
+    PosArgsT = TypeVarTuple("PosArgsT")
+    T_Retval = TypeVar("T_Retval")
+    FuncType = Callable[[Unpack[PosArgsT]], T_Retval]
+    FuncDecoType = Callable[[FuncType], FuncType]
 
 T = TypeVar("T")
 
@@ -107,7 +115,7 @@ class ExpiringCache(Cache[T]):
     """A cache whose items can expire by a given function."""
 
     def __init__(
-        self, expiration_policy: Callable[[CachedItem[T]], bool], max_size: int = 500
+        self, expiration_policy: "Callable[[CachedItem[T]], bool]", max_size: int = 500
     ) -> None:
         super().__init__(max_size)
         assert expiration_policy is not None
@@ -174,7 +182,7 @@ class ExpiringCache(Cache[T]):
                 yield (key, item.value)
 
 
-def lazy(max_seconds: int = 1, cache=None):
+def lazy(max_seconds: int = 1, cache=None) -> "FuncDecoType":
     """
     Wraps a function so that it is called up to once
     every max_seconds, by input arguments.

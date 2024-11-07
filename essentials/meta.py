@@ -1,7 +1,10 @@
 import warnings
 from functools import wraps
 from inspect import iscoroutinefunction
-from typing import Optional
+from typing import Callable, Optional, TypeVar
+
+T = TypeVar("T")
+FuncType = Callable[..., T]
 
 
 class DeprecatedException(Exception):
@@ -9,7 +12,9 @@ class DeprecatedException(Exception):
         super().__init__("The function `%s` is deprecated" % param_name)
 
 
-def deprecated(message: Optional[str] = None, raise_exception=False):
+def deprecated(
+    message: Optional[str] = None, raise_exception=False
+) -> Callable[[FuncType], FuncType]:
     """
     This is a decorator which can be used to mark functions
     as deprecated. It will result in a warning being emitted

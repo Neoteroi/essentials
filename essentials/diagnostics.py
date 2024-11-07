@@ -45,5 +45,5 @@ class StopWatch:
         self.start()
         return self
 
-    def __exit__(self, *args):
+    def __exit__(self, *args) -> None:
         self.stop()

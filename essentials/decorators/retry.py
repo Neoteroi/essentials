@@ -2,20 +2,22 @@ import asyncio
 import time
 from functools import wraps
 from inspect import iscoroutinefunction
-from typing import Callable, Optional, Tuple, Type, Union
+from typing import Callable, Optional, Tuple, Type, TypeVar, Union
 
+T = TypeVar("T")
+FuncType = Callable[..., T]
 CatchException = Union[Tuple[Type[Exception]], Type[Exception], None]
 OnException = Optional[Callable[[Type[Exception], int], None]]
 
 
 def _get_retry_async_wrapper(
-    fn,
+    fn: FuncType,
     times: int,
     delay: float,
     catch_exceptions_types: CatchException,
     on_exception: OnException,
     loop,
-):
+) -> FuncType:
     @wraps(fn)
     async def async_wrapper(*args, **kwargs):
         attempt = 0
@@ -46,7 +48,7 @@ def retry(
     catch_exceptions_types: CatchException = None,
     on_exception: OnException = None,
     loop=None,
-):
+) -> Callable[[FuncType], FuncType]:
     if catch_exceptions_types is None:
         catch_exceptions_types = Exception
 
