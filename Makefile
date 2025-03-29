@@ -23,3 +23,10 @@ testcov:
 
 test:
 	pytest -v -W ignore
+
+
+check:
+	flake8 .
+	isort --check-only .
+	black --check .
+	mypy .
