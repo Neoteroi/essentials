@@ -7,10 +7,10 @@ import base64
 import dataclasses
 import json
 from datetime import date, datetime, time
+from decimal import Decimal
 from enum import Enum
 from typing import Any
 from uuid import UUID
-from decimal import Decimal
 
 __all__ = ["FriendlyEncoder", "dumps"]
 

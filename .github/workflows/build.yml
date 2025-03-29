@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.9, "3.10", 3.11, 3.12]
+        python-version: [3.9, "3.10", 3.11, 3.12, 3.13]
 
     steps:
       - uses: actions/checkout@v4
@@ -31,20 +31,9 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - uses: actions/cache@v4
-        id: depcache
-        with:
-          path: deps
-          key: requirements-pip-${{ matrix.python-version }}-${{ hashFiles('requirements.txt') }}
-
-      - name: Download dependencies
-        if: steps.depcache.outputs.cache-hit != 'true'
-        run: |
-          pip download --dest=deps -r requirements.txt
-
       - name: Install dependencies
         run: |
-          pip install -U --no-index --find-links=deps deps/*
+          pip install -r requirements.txt
 
       - name: Run tests
         run: |
@@ -74,19 +63,19 @@ jobs:
           bash <(curl -s https://codecov.io/bash)
 
       - name: Install distribution dependencies
-        run: pip install --upgrade twine setuptools wheel
-        if: matrix.python-version == 3.10
+        run: pip install build
+        if: matrix.python-version == 3.12
 
       - name: Create distribution package
-        run: python setup.py sdist bdist_wheel
-        if: matrix.python-version == 3.10
+        run: python -m build
+        if: matrix.python-version == 3.12
 
       - name: Upload distribution package
         uses: actions/upload-artifact@master
         with:
-          name: dist-package-${{ matrix.python-version }}
+          name: dist
           path: dist
-        if: matrix.python-version == 3.10
+        if: matrix.python-version == 3.12
 
   publish:
     runs-on: ubuntu-latest
@@ -96,17 +85,28 @@ jobs:
       - name: Download a distribution artifact
         uses: actions/download-artifact@v4
         with:
-          name: dist-package-3.10
+          name: dist
           path: dist
+
+      - name: Use Python 3.12
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install twine
+
       - name: Publish distribution 📦 to Test PyPI
-        uses: pypa/gh-action-pypi-publish@master
-        with:
-          skip_existing: true
-          user: __token__
-          password: ${{ secrets.test_pypi_password }}
-          repository_url: https://test.pypi.org/legacy/
+        run: |
+          twine upload -r testpypi dist/*
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.test_pypi_password }}
+
       - name: Publish distribution 📦 to PyPI
-        uses: pypa/gh-action-pypi-publish@master
-        with:
-          user: __token__
-          password: ${{ secrets.pypi_password }}
+        run: |
+          twine upload -r pypi dist/*
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.pypi_password }}
