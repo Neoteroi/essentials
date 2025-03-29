@@ -10,6 +10,7 @@ from datetime import date, datetime, time
 from enum import Enum
 from typing import Any
 from uuid import UUID
+from decimal import Decimal
 
 __all__ = ["FriendlyEncoder", "dumps"]
 
@@ -33,6 +34,8 @@ class FriendlyEncoder(json.JSONEncoder):
                 return base64.urlsafe_b64encode(obj).decode("utf8")
             if isinstance(obj, UUID):
                 return str(obj)
+            if isinstance(obj, Decimal):
+                return str(obj)
             if isinstance(obj, Enum):
                 return obj.value
             if dataclasses.is_dataclass(obj):
@@ -51,7 +54,7 @@ def dumps(
     separators=None,
     default=None,
     sort_keys=False,
-    **kw
+    **kw,
 ) -> str:
     if cls is None:
         cls = FriendlyEncoder
@@ -66,5 +69,5 @@ def dumps(
         separators=separators,
         default=default,
         sort_keys=sort_keys,
-        **kw
+        **kw,
     )
