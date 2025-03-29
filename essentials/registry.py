@@ -1,6 +1,6 @@
 import reprlib
 from abc import ABC
-from typing import Sequence, Type
+from typing import List, Sequence, Type
 
 from essentials.exceptions import InvalidArgument
 
@@ -10,7 +10,7 @@ class RegistryException(Exception):
 
 
 class AmbiguousRegistryName(RegistryException):
-    def __init__(self, name: str, found_types: Sequence[Type]):
+    def __init__(self, name: str, found_types: Sequence[Type]) -> None:
         super().__init__(
             f"The name `{name}` is ambiguous. Found the following types: "
             f'{", ".join(_type.__name__ for _type in found_types)}'
@@ -18,28 +18,29 @@ class AmbiguousRegistryName(RegistryException):
 
 
 class TypeNotFoundException(RegistryException):
-    def __init__(self, name: str, base_class_name: str):
+    def __init__(self, name: str, base_class_name: str) -> None:
         super().__init__(f"Type not found: `{name}` for class `{base_class_name}`")
 
 
 class Registry(ABC):
     @classmethod
-    def get_class(cls):
+    def get_class(cls) -> Type["Registry"]:
         if cls is Registry:
             raise ValueError("Cannot call get_class_name on a Registry")
         mro = list(cls.__mro__)
         mro.reverse()
         for i, m in enumerate(mro):
             if m is Registry:
-                return mro[i + 1]
+                break
+        return mro[i + 1]
 
     @classmethod
-    def _get_class_keyname(cls):
+    def _get_class_keyname(cls) -> str:
         a = cls.get_class()
         return a.__name__.lower()
 
     @classmethod
-    def from_configuration(cls, configuration, cls_type=None):
+    def from_configuration(cls, configuration, cls_type=None) -> "Registry":
         if cls is Registry:
             raise InvalidArgument("call this method with a subclass of `Registry`")
 
@@ -67,13 +68,13 @@ class Registry(ABC):
             )
 
     @classmethod
-    def from_dict(cls, data):
+    def from_dict(cls, data) -> "Registry":
         a = dict(data)
         del a["type"]
         return cls(**a)
 
     @classmethod
-    def get_class_name(cls):
+    def get_class_name(cls) -> str:
         if hasattr(cls, "type_name"):
             return cls.type_name
         key = cls._get_class_keyname()
@@ -82,7 +83,7 @@ class Registry(ABC):
         return s[:length] if s[length:] == key else s
 
     @classmethod
-    def get_subclasses(cls, base_class=None):
+    def get_subclasses(cls, base_class=None) -> List[Type["Registry"]]:
         if base_class is None:
             base_class = cls.get_class()
 
@@ -95,7 +96,7 @@ class Registry(ABC):
         return all_classes
 
     @classmethod
-    def _get_type(cls, configuration, all_types=None):
+    def _get_type(cls, configuration, all_types=None) -> Type["Registry"]:
         try:
             type_name = configuration["type"]
         except TypeError:

@@ -4,9 +4,15 @@ from enum import Enum, Flag, IntEnum, IntFlag, auto
 from uuid import UUID, uuid4
 
 import pytest
+from pydantic import BaseModel
 from pytest import raises
 
 from essentials.json import dumps
+
+
+class Model(BaseModel):
+    id: int
+    name: str
 
 
 @dataclass
@@ -78,6 +84,9 @@ def test_class_with_to_dict_method():
 
     data = dumps(Example(10, 20))
     assert '{"x": 10, "y": 20, "something_else": true, "date": "2016-03-26"}' == data
+
+    data = dumps(Model(id=1, name="hello"))
+    assert '{"id": 1, "name": "hello"}' == data
 
 
 def test_raises_for_unhandled_class():

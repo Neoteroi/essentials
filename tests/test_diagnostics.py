@@ -5,6 +5,8 @@ from pytest import raises
 
 from essentials.diagnostics import StopWatch
 
+DELTA = 0.15
+
 
 def test_stopwatch():
     a = StopWatch()
@@ -13,16 +15,16 @@ def test_stopwatch():
     time.sleep(0.01)
 
     a.stop()
-    assert pytest.approx(0.01, 0.15) == a.elapsed_s
-    assert pytest.approx(a.elapsed_ms, 0.15) == a.elapsed_s * 1000
+    assert pytest.approx(0.01, DELTA) == a.elapsed_s
+    assert pytest.approx(a.elapsed_ms, DELTA) == a.elapsed_s * 1000
 
 
 def test_stopwatch_with_context_manager():
     with StopWatch() as a:
         time.sleep(0.01)
 
-    assert pytest.approx(0.01, 0.15) == a.elapsed_s
-    assert pytest.approx(a.elapsed_ms, 0.15) == a.elapsed_s * 1000
+    assert pytest.approx(0.01, DELTA) == a.elapsed_s
+    assert pytest.approx(a.elapsed_ms, DELTA) == a.elapsed_s * 1000
 
 
 def test_stopwatch_raises_for_start_twice():

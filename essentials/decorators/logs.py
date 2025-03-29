@@ -2,15 +2,17 @@ import logging
 from functools import wraps
 from inspect import iscoroutinefunction
 from logging import Logger
-from typing import Callable, Optional
+from typing import Callable, Optional, TypeVar
 from uuid import uuid4
 
 from essentials.diagnostics import StopWatch
 
+T = TypeVar("T")
 IdFactory = Callable[[], str]
+FuncType = Callable[..., T]
 
 
-def _default_id_factory():
+def _default_id_factory() -> str:
     return str(uuid4())
 
 
@@ -25,7 +27,7 @@ def log(
     completed_msg="%s; completed; call id: %s; elapsed %s ms",
     completed_msg_with_output="%s; completed; call id: %s; elapsed %s ms; output: %s",
     exc_message="%s; unhandled exception; call id: %s; elapsed %s ms",
-):
+) -> Callable[[FuncType], FuncType]:
 
     if not id_factory:
         id_factory = _default_id_factory
