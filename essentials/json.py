@@ -6,7 +6,7 @@ supporting time objects, UUID and bytes.
 import base64
 import dataclasses
 import json
-from datetime import date, datetime, time
+from datetime import date, datetime, time, timedelta
 from decimal import Decimal
 from enum import Enum
 from typing import Any
@@ -28,6 +28,8 @@ class FriendlyEncoder(json.JSONEncoder):
                 return obj.strftime("%H:%M:%S")
             if isinstance(obj, datetime):
                 return obj.isoformat()
+            if isinstance(obj, timedelta):
+                return obj.total_seconds()
             if isinstance(obj, date):
                 return obj.strftime("%Y-%m-%d")
             if isinstance(obj, bytes):
