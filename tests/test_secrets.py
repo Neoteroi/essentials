@@ -1,6 +1,7 @@
 import pytest
-from essentials.secrets import Secret
+
 from essentials.exceptions import EnvironmentVariableNotFound
+from essentials.secrets import Secret
 
 
 def test_from_env_success(monkeypatch):
