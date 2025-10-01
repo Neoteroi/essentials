@@ -60,3 +60,8 @@ class OperationFailedException(Exception):
 
 class SystemException(Exception):
     pass
+
+
+class EnvironmentVariableNotFound(ValueError):
+    def __init__(self, name: str) -> None:
+        super().__init__(f"Environment variable {name} not found.")
