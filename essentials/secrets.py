@@ -22,10 +22,6 @@ class Secret:
     '******'
     >>> repr(my_secret)
     "Secret('******')"
-
-    Hardcoding secrets in source code is a security risk. See:
-
-    https://www.gitguardian.com/state-of-secrets-sprawl-report-2023
     """
 
     def __init__(self, value: str, *, direct_value: bool = False) -> None:
@@ -38,14 +34,15 @@ class Secret:
             direct_value: Must be set to True to allow passing secrets directly
 
         Raises:
-            ValueError: If hardcoded secret is provided without explicit permission
+            ValueError: If a secret is provided without explicit permission.
         """
         if not value.startswith("$") and not direct_value:
             raise ValueError(
                 "Hardcoded secrets are not allowed. Either:\n"
                 "1. Use Secret.from_env('ENV_VAR_NAME') for environment variables\n"
                 "2. Use Secret('$ENV_VAR_NAME') for env var references\n"
-                "3. Set direct_value=True if you really need a hardcoded secret"
+                "3. Set direct_value=True if you need to handle a secret value "
+                "directly."
             )
         self._value = value
         # Validate that we can retrieve a value

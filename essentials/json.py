@@ -41,7 +41,7 @@ class FriendlyEncoder(json.JSONEncoder):
 
             # Common serializable objects
             if dataclasses.is_dataclass(obj):
-                return dataclasses.asdict(obj)
+                return dataclasses.asdict(obj)  # type:ignore[arg-type]
             if hasattr(obj, "model_dump"):  # Pydantic v2
                 return obj.model_dump()
             if hasattr(obj, "dict"):  # Pydantic v1 or similar
