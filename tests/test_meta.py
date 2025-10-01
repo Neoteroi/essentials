@@ -46,5 +46,6 @@ def test_deprecated_async_method():
 
 
 def test_deprecated_async_method_exc():
-    with pytest.raises(DeprecatedException):
-        asyncio.run(async_dep_method2())
+    with pytest.warns(DeprecationWarning, match="`async_dep_method2` is deprecated."):
+        with pytest.raises(DeprecatedException):
+            asyncio.run(async_dep_method2())

@@ -67,7 +67,6 @@ def log(
             )
 
     def log_decorator(fn):
-        nonlocal logger
         name = fn.__module__ + "." + fn.__name__
 
         if iscoroutinefunction(fn):
