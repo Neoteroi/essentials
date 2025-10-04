@@ -24,7 +24,9 @@ class Secret:
     "Secret('******')"
     """
 
-    def __init__(self, value: str, *, direct_value: bool = False) -> None:
+    def __init__(
+        self, value: str, *, direct_value: bool = False, encoding: str = "utf8"
+    ) -> None:
         """
         Create an instance of Secret.
 
@@ -32,6 +34,8 @@ class Secret:
             value: The name of an environment variable reference (prefixed with $), or
                    a secret if direct_value=True.
             direct_value: Must be set to True to allow passing secrets directly
+            encoding: The encoding to be used when comparing strings with
+                    secrets.compare_digest.
 
         Raises:
             ValueError: If a secret is provided without explicit permission.
@@ -45,6 +49,7 @@ class Secret:
                 "directly."
             )
         self._value = value
+        self._encoding = encoding
         # Validate that we can retrieve a value
         value = self.get_value()
         if not isinstance(value, str) or not value:
@@ -86,6 +91,9 @@ class Secret:
             return value
         return self._value
 
+    def _get_value_bytes(self) -> bytes:
+        return self.get_value().encode(self._encoding)
+
     def __str__(self) -> str:
         return "******"  # Never expose the actual value
 
@@ -102,9 +110,11 @@ class Secret:
         if isinstance(other, str):
             # Using constant-time comparison to prevent timing attacks, with
             # secrets.compare_digest.
-            return secrets.compare_digest(self.get_value(), other)
+            return secrets.compare_digest(
+                self._get_value_bytes(), other.encode(self._encoding, errors="ignore")
+            )
 
         if not isinstance(other, Secret):
             return NotImplemented
 
-        return secrets.compare_digest(self.get_value(), other.get_value())
+        return secrets.compare_digest(self._get_value_bytes(), other._get_value_bytes())

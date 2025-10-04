@@ -138,3 +138,19 @@ def test_from_plain_text_with_empty_string():
     """Test that from_plain_text with empty string raises ValueError."""
     with pytest.raises(ValueError, match="Secret value must be a non-empty string"):
         Secret.from_plain_text("")
+
+
+def test_secrets_support_utf8_chars():
+    secret = Secret("ØØ Void", direct_value=True)
+    assert secret == "ØØ Void"
+
+
+def test_secrets_work_with_invalid_unicode():
+    secret = Secret("ØØ Void", direct_value=True)
+    assert secret != "Hello\ud800World"  # invalid unicode
+
+
+def test_secrets_with_special_characters():
+    """Test secrets with various special Unicode characters."""
+    secret = Secret("🔐密码🌟", direct_value=True)
+    assert secret == "🔐密码🌟"
