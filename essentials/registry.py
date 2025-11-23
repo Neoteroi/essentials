@@ -1,6 +1,6 @@
 import reprlib
 from abc import ABC
-from typing import List, Sequence, Type
+from typing import Sequence, Type
 
 from essentials.exceptions import InvalidArgument
 
@@ -83,7 +83,7 @@ class Registry(ABC):
         return s[:length] if s[length:] == key else s
 
     @classmethod
-    def get_subclasses(cls, base_class=None) -> List[Type["Registry"]]:
+    def get_subclasses(cls, base_class=None) -> list[Type["Registry"]]:
         if base_class is None:
             base_class = cls.get_class()
 

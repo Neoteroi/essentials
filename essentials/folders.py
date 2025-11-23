@@ -1,13 +1,12 @@
 import ntpath
 import os
-from typing import Tuple
 
 
 def ensure_folder(path) -> None:
     os.makedirs(path, exist_ok=True)
 
 
-def split_path(filepath) -> Tuple[str, str, str]:
+def split_path(filepath) -> tuple[str, str, str]:
     """Splits a file path into folder path, file name and extension"""
     head, tail = ntpath.split(filepath)
     filename, extension = os.path.splitext(tail)
