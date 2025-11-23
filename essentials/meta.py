@@ -1,7 +1,7 @@
 import warnings
 from functools import wraps
 from inspect import iscoroutinefunction
-from typing import Callable, Optional, TypeVar
+from typing import Callable, TypeVar
 
 T = TypeVar("T")
 FuncType = Callable[..., T]
@@ -13,7 +13,7 @@ class DeprecatedException(Exception):
 
 
 def deprecated(
-    message: Optional[str] = None, raise_exception=False
+    message: str | None = None, raise_exception=False
 ) -> Callable[[FuncType], FuncType]:
     """
     This is a decorator which can be used to mark functions

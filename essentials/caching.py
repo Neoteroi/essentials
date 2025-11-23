@@ -1,7 +1,7 @@
 import functools
 import time
 from collections import OrderedDict
-from typing import TYPE_CHECKING, Any, Generic, Iterable, Iterator, Tuple, TypeVar
+from typing import TYPE_CHECKING, Any, Generic, Iterable, Iterator, TypeVar
 
 if TYPE_CHECKING:
     from typing import Callable, TypeVarTuple, Unpack
@@ -81,7 +81,7 @@ class Cache(Generic[T]):
     def __contains__(self, key) -> bool:
         return key in self._bag
 
-    def __iter__(self) -> Iterator[Tuple[Any, T]]:
+    def __iter__(self) -> Iterator[tuple[Any, T]]:
         return iter(self._bag.items())
 
     def clear(self) -> None:
@@ -173,7 +173,7 @@ class ExpiringCache(Cache[T]):
             return False
         return True
 
-    def __iter__(self) -> Iterator[Tuple[Any, T]]:
+    def __iter__(self) -> Iterator[tuple[Any, T]]:
         """Iterates through cached items, discarding and removing expired ones."""
         for key, item in list(self._bag.items()):
             if self.expired(item):
